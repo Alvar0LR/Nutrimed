@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+Registro — NutriMed
+{% endblock %}
+{% block content %}
+<div class="container" style="min-height:100vh; display:flex; align-items:center; justify-content:center">
+  <div class="row w-100" style="max-width:800px">
+    <div class="col-md-6 p-5 rounded-start" style="background:#E1F5EE">
+      <div class="mb-3" style="color:#0F6E56; font-weight:500; font-size:18px">● NutriMed</div>
+      <h2 style="color:#085041">Crea tu cuenta</h2>
+      <p style="color:#0F6E56">Empieza a gestionar tu dieta médica de forma inteligente.</p>
+      <span class="badge mt-3" style="background:#9FE1CB; color:#085041">Registro gratuito</span>
+    </div>
+    <div class="col-md-6 p-5 bg-white rounded-end border">
+      <a href="{% url 'google_login' %}" class="btn btn-outline-secondary w-100 mb-3 d-flex align-items-center justify-content-center gap-2">
+        <svg width="18" height="18" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.2l6.7-6.7C35.7 2.5 30.2 0 24 0 14.7 0 6.7 5.4 2.7 13.3l7.8 6C12.4 13 17.8 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4 6.1-9.9 7.1-17z"/>
+          <path fill="#FBBC05" d="M10.5 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.7 10.7l7.8-6z"/>
+          <path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.5-5.8c-2 1.4-4.6 2.2-7.7 2.2-6.2 0-11.5-4.2-13.4-9.9l-7.8 6C6.7 42.6 14.7 48 24 48z"/>
+        </svg>
+        Registrarse con Google
+      </a>
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <hr class="flex-grow-1"><span class="text-muted small">o con email</span><hr class="flex-grow-1">
+      </div>
+      <form method="POST" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <input type="email" name="email" class="form-control" placeholder="correo@email.com">
+        </div>
+        <div class="mb-3">
+          <input type="password" name="password1" class="form-control" placeholder="Contraseña">
+        </div>
+        <div class="mb-3">
+          <input type="password" name="password2" class="form-control" placeholder="Repite la contraseña">
+        </div>
+        <button type="submit" class="btn w-100 text-white" style="background:#0F6E56">Crear cuenta</button>
+      </form>
+      <p class="text-center mt-3 small text-muted">
+        ¿Ya tienes cuenta? <a href="{% url 'account_login' %}" style="color:#0F6E56">Inicia sesión</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

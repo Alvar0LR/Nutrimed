@@ -1,0 +1,17 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyA5Gj6YwhoR-TTaRV7n6bnm0n22mBJ_UQc",
+  authDomain: "nutrimed-29d4b.firebaseapp.com",
+  projectId: "nutrimed-29d4b",
+  storageBucket: "nutrimed-29d4b.firebasestorage.app",
+  messagingSenderId: "456716585865",
+  appId: "1:456716585865:web:90e0b308bb62220b00ef58"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);

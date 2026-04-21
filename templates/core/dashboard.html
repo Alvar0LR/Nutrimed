@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+Dashboard — NutriMed
+{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h2 style="color:#085041">Hola, {{ user_email }}</h2>
+  <p class="text-muted">Bienvenido a tu panel de NutriMed</p>
+  <div class="row g-3 mt-2">
+    <div class="col-md-3">
+      <div class="card border-0 p-3" style="background:#E1F5EE">
+        <div class="small text-muted">Calorías hoy</div>
+        <div class="fs-3 fw-500" style="color:#0F6E56">0 kcal</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 p-3" style="background:#E6F1FB">
+        <div class="small text-muted">Proteínas</div>
+        <div class="fs-3 fw-500" style="color:#185FA5">0g</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 p-3" style="background:#FAEEDA">
+        <div class="small text-muted">Hidratos</div>
+        <div class="fs-3 fw-500" style="color:#BA7517">0g</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card border-0 p-3" style="background:#FBEAF0">
+        <div class="small text-muted">Grasas</div>
+        <div class="fs-3 fw-500" style="color:#993556">0g</div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
