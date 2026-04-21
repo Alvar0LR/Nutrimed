@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}{{ titulo }} — NutriMed{% endblock %}
+{% block content %}
+<div class="container py-4" style="max-width:800px">
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <a href="{% url 'lista_alimentos' %}" class="btn btn-outline-secondary btn-sm">← Volver</a>
+    <h2 style="color:#085041">{{ titulo }}</h2>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-success">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="card border-0 shadow-sm p-4">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-8">
+          <label class="form-label small text-muted">Nombre del ingrediente</label>
+          {{ form.nombre }}
+        </div>
+        <div class="col-md-4">
+          <label class="form-label small text-muted">Grupo alimenticio</label>
+          {{ form.grupo }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Calorías (kcal/100g)</label>
+          {{ form.calorias }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Proteínas (g/100g)</label>
+          {{ form.proteinas }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Hidratos (g/100g)</label>
+          {{ form.hidratos }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Grasas (g/100g)</label>
+          {{ form.grasas }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Fibra (g/100g)</label>
+          {{ form.fibra }}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small text-muted">Sodio (mg/100g)</label>
+          {{ form.sodio }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label small text-muted">Perfil médico</label>
+          {{ form.perfil_medico }}
+        </div>
+        <div class="col-12">
+          <label class="form-label small text-muted">Notas clínicas</label>
+          {{ form.notas }}
+        </div>
+      </div>
+      <div class="d-flex gap-2 mt-4">
+        <button type="submit" class="btn text-white" style="background:#0F6E56">Guardar ingrediente</button>
+        <a href="{% url 'lista_alimentos' %}" class="btn btn-outline-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
