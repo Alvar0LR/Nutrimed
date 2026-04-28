@@ -4,7 +4,10 @@
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 style="color:#085041">Mis ingredientes</h2>
-    <a href="{% url 'crear_alimento' %}" class="btn text-white" style="background:#0F6E56">+ Nuevo ingrediente</a>
+    <div class="d-flex gap-2">
+      <a href="{% url 'lista_comidas' %}" class="btn btn-outline-secondary">Gestionar comidas</a>
+      <a href="{% url 'crear_alimento' %}" class="btn text-white" style="background:#0F6E56">+ Nuevo ingrediente</a>
+    </div>
   </div>
 
   <form method="GET" class="d-flex gap-2 mb-4">

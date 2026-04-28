@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Mis comidas — NutriMed{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 style="color:#085041">Mis comidas</h2>
+    <div class="d-flex gap-2">
+      <a href="{% url 'lista_alimentos' %}" class="btn btn-outline-secondary">Gestionar ingredientes</a>
+      <a href="{% url 'crear_comida' %}" class="btn text-white" style="background:#0F6E56">+ Nueva comida</a>
+    </div>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-success alert-dismissible fade show">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% for item in comidas %}
+  <div class="card border-0 shadow-sm mb-3">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <h5 class="mb-1" style="color:#085041">{{ item.comida.nombre }}</h5>
+          <span class="badge" style="background:#E1F5EE;color:#085041">{{ item.comida.get_turno_display }}</span>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+          <span class="fw-500" style="color:#0F6E56;font-size:16px">{{ item.macros.calorias }} kcal</span>
+          <a href="{% url 'editar_comida' item.comida.id %}" class="btn btn-sm" style="border:0.5px solid #85B7EB;color:#185FA5">Editar</a>
+          <a href="{% url 'eliminar_comida' item.comida.id %}" class="btn btn-sm" style="border:0.5px solid #F09595;color:#A32D2D">Eliminar</a>
+        </div>
+      </div>
+      <div class="d-flex gap-3 mt-2">
+        <span class="small" style="color:#185FA5">Proteinas: {{ item.macros.proteinas}}g</span>
+        <span class="small" style="color:#BA7517">Hidratos de Carbono: {{ item.macros.hidratos }}g</span>
+        <span class="small" style="color:#993556">Grasas: {{ item.macros.grasas }}g</span>
+      </div>
+      <div class="d-flex flex-wrap gap-2 mt-2">
+        {% for ci in item.comida.comidaingrediente_set.all %}
+          <span class="badge" style="background:#F1EFE8;color:#444;font-weight:400;font-size:11px">
+            {{ ci.alimento.nombre }} {{ ci.cantidad }}g
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="text-center text-muted py-5">
+    No tienes comidas todavía. <a href="{% url 'crear_comida' %}" style="color:#0F6E56">Crea la primera</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

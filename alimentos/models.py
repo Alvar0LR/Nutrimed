@@ -63,7 +63,7 @@ class Comida(models.Model):
     def calcular_macros(self):
         totales = {'calorias': 0, 'proteinas': 0, 'hidratos': 0, 'grasas': 0}
         for ci in self.comidaingrediente_set.all():
-            factor = ci.cantidad / 100
+            factor = float(ci.cantidad) / 100
             totales['calorias'] += float(ci.alimento.calorias) * factor
             totales['proteinas'] += float(ci.alimento.proteinas) * factor
             totales['hidratos'] += float(ci.alimento.hidratos) * factor
