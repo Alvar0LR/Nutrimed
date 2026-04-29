@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Plan semanal — NutriMed{% endblock %}
+{% block content %}
+<div class="container-fluid py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 style="color:#085041">Plan semanal</h2>
+      <span class="text-muted small">Semana del {{ lunes|date:"d M" }} al {{ dias.6|date:"d M Y" }}</span>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="?semana={{ semana_offset|add:'-1' }}" class="btn btn-outline-secondary">← Anterior</a>
+      <a href="?semana=0" class="btn btn-outline-secondary">Hoy</a>
+      <a href="?semana={{ semana_offset|add:'1' }}" class="btn btn-outline-secondary">Siguiente →</a>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle" style="min-width:900px">
+      <thead>
+        <tr>
+          <th style="width:90px;background:#E1F5EE;color:#085041"></th>
+          {% for dia in dias %}
+          <th class="text-center" style="background:{% if dia == hoy %}#9FE1CB{% else %}#E1F5EE{% endif %};color:#085041">
+            <div style="font-size:11px;font-weight:400">{{ dia|date:"D" }}</div>
+            <div style="font-size:14px;font-weight:500">{{ dia|date:"d" }}</div>
+          </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for turno_val, turno_label in turnos %}
+        <tr>
+          <td class="text-end pe-3" style="font-size:11px;font-weight:500;color:#085041;background:#F7FBF9;white-space:nowrap">
+            {{ turno_label }}
+          </td>
+          {% for dia in dias %}
+          <td style="min-width:120px;vertical-align:top;padding:6px">
+            {% for turno_k, dias_dict in matriz.items %}
+              {% if turno_k == turno_val %}
+                {% for dia_k, slot in dias_dict.items %}
+                  {% if dia_k == dia %}
+                    {% if slot %}
+                      <div style="background:#E1F5EE;border-radius:6px;padding:5px 8px;position:relative">
+                        <div style="font-size:11px;font-weight:500;color:#085041;padding-right:16px">{{ slot.comida.nombre }}</div>
+                        <div style="font-size:10px;color:#0F6E56">{{ slot.comida.calcular_macros.calorias }} kcal</div>
+                        <form method="POST" action="{% url 'quitar_slot' %}" style="position:absolute;top:3px;right:4px">
+                          {% csrf_token %}
+                          <input type="hidden" name="fecha" value="{{ dia|date:'Y-m-d' }}">
+                          <input type="hidden" name="turno" value="{{ turno_val }}">
+                          <input type="hidden" name="semana_offset" value="{{ semana_offset }}">
+                          <button type="submit" style="background:none;border:none;color:#A32D2D;font-size:13px;cursor:pointer;padding:0;line-height:1">×</button>
+                        </form>
+                      </div>
+                    {% else %}
+                      {% with fecha_str=dia|date:'Y-m-d' %}
+                      <a href="{% url 'seleccionar_comida_slot' fecha_str turno_val %}"
+                         style="display:block;border:1px dashed #ccc;border-radius:6px;padding:6px;font-size:11px;color:#aaa;text-align:center;text-decoration:none">
+                        + añadir
+                      </a>
+                      {% endwith %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

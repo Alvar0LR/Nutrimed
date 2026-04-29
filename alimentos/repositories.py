@@ -1,5 +1,5 @@
-from .models import Alimentos
-from .models import Comida, ComidaIngrediente
+from .models import Alimentos, Comida, ComidaIngrediente, SlotDieta
+from datetime import date, timedelta
 
 class AlimentoRepository:
     def __init__(self, usuario):
@@ -30,6 +30,9 @@ class AlimentoRepository:
     def delete(self, id):
         alimento = self.get_by_id(id)
         alimento.delete()
+    
+    def contar(self):
+        return Alimentos.objects.filter(usuario=self.usuario).count()
 
 class ComidaRepository:
     def __init__(self, usuario):
@@ -37,6 +40,9 @@ class ComidaRepository:
 
     def get_all(self):
         return Comida.objects.filter(usuario=self.usuario)
+
+    def get_by_name(self, query):
+        return Comida.objects.filter(usuario=self.usuario, nombre__icontains=query)
 
     def get_by_id(self, id):
         return Comida.objects.get(id=id, usuario=self.usuario)
@@ -78,4 +84,45 @@ class ComidaRepository:
         comida = self.get_by_id(id)
         return comida.calcular_macros()
 
+    def contar(self):
+        return Comida.objects.filter(usuario=self.usuario).count()
     
+
+
+class SlotDietaRepository:
+
+    def __init__(self, usuario):
+        self.usuario = usuario
+
+    def get_semana(self, fecha_inicio):
+        fecha_fin = fecha_inicio + timedelta(days=6)
+        return SlotDieta.objects.filter(
+            usuario=self.usuario,
+            fecha__range=[fecha_inicio, fecha_fin]
+        ).select_related('comida')
+
+    def get_slot(self, fecha, turno):
+        try:
+            return SlotDieta.objects.get(
+                usuario=self.usuario,
+                fecha=fecha,
+                turno=turno
+            )
+        except SlotDieta.DoesNotExist:
+            return None
+
+    def asignar(self, fecha, turno, comida_id):
+        slot, created = SlotDieta.objects.update_or_create(
+            usuario=self.usuario,
+            fecha=fecha,
+            turno=turno,
+            defaults={'comida_id': comida_id}
+        )
+        return slot
+
+    def quitar(self, fecha, turno):
+        SlotDieta.objects.filter(
+            usuario=self.usuario,
+            fecha=fecha,
+            turno=turno
+        ).delete()

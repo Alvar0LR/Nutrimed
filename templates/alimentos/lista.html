@@ -3,13 +3,15 @@
 {% block content %}
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 style="color:#085041">Mis ingredientes</h2>
+    <div>
+      <h2 style="color:#085041;margin-bottom:2px">Mis ingredientes</h2>
+      <span class="text-muted small">{{ total }} ingrediente{% if total != 1 %}s{% endif %} registrado{% if total != 1 %}s{% endif %}</span>
+    </div>
     <div class="d-flex gap-2">
       <a href="{% url 'lista_comidas' %}" class="btn btn-outline-secondary">Gestionar comidas</a>
       <a href="{% url 'crear_alimento' %}" class="btn text-white" style="background:#0F6E56">+ Nuevo ingrediente</a>
     </div>
   </div>
-
   <form method="GET" class="d-flex gap-2 mb-4">
     <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Buscar ingrediente..." style="max-width:250px">
     <select name="grupo" class="form-control" style="max-width:180px">
@@ -20,6 +22,7 @@
     </select>
     <button type="submit" class="btn text-white" style="background:#0F6E56">Filtrar</button>
     <a href="{% url 'lista_alimentos' %}" class="btn btn-outline-secondary">Limpiar</a>
+
   </form>
 
   {% if messages %}
