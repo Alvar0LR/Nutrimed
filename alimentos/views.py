@@ -165,7 +165,6 @@ def plan_semanal(request):
     turnos = SlotDieta.TURNOS
     slots = repo.get_semana(lunes)
     
-    # Construir matriz turno x dia
     matriz = {}
     for turno_val, turno_label in turnos:
         matriz[turno_val] = {}

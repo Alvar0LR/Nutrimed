@@ -29,6 +29,7 @@ class Alimentos(models.Model):
     grasas = models.DecimalField(max_digits=5, decimal_places=2)
     fibra = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     sodio = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    azucares = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     perfil_medico = models.CharField(max_length=20, choices=PERFIL, default='apto')
     notas = models.TextField(blank=True)
     creado = models.DateTimeField(auto_now_add=True)
@@ -61,13 +62,14 @@ class Comida(models.Model):
         return self.nombre
 
     def calcular_macros(self):
-        totales = {'calorias': 0, 'proteinas': 0, 'hidratos': 0, 'grasas': 0}
+        totales = {'calorias': 0, 'proteinas': 0, 'hidratos': 0, 'grasas': 0, 'azucares':0}
         for ci in self.comidaingrediente_set.all():
             factor = float(ci.cantidad) / 100
             totales['calorias'] += float(ci.alimento.calorias) * factor
             totales['proteinas'] += float(ci.alimento.proteinas) * factor
             totales['hidratos'] += float(ci.alimento.hidratos) * factor
             totales['grasas'] += float(ci.alimento.grasas) * factor
+            totales['azucares'] += float(ci.alimento.azucares) * factor
         return {k: round(v,1) for k, v in totales.items()}
             
 

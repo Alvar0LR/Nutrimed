@@ -1,36 +1,117 @@
 {% extends 'base.html' %}
-{% block title %}
-Dashboard — NutriMed
+{% block title %}Dashboard — NutriMed{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
+
 {% block content %}
 <div class="container py-4">
-  <h2 style="color:#085041">Hola, {{ user_email }}</h2>
-  <p class="text-muted">Bienvenido a tu panel de NutriMed</p>
-  <div class="row g-3 mt-2">
-    <div class="col-md-3">
-      <div class="card border-0 p-3" style="background:#E1F5EE">
-        <div class="small text-muted">Calorías hoy</div>
-        <div class="fs-3 fw-500" style="color:#0F6E56">0 kcal</div>
+
+  <div class="mb-4">
+    <h2 style="color:#085041">Dashboard</h2>
+    <span class="text-muted small">Hola, {{ user_email }} — {{ today|date:"d M Y" }}</span>
+  </div>
+
+  <!-- Métricas del día -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-2">
+      <div class="card border-0 p-3 h-100" style="background:#E1F5EE">
+        <div class="small text-muted mb-1">Calorías hoy</div>
+        <div class="fs-3 fw-bold" style="color:#0F6E56">{{ calorias_hoy }} <span class="fs-6 fw-normal">kcal</span></div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="card border-0 p-3" style="background:#E6F1FB">
-        <div class="small text-muted">Proteínas</div>
-        <div class="fs-3 fw-500" style="color:#185FA5">0g</div>
+    <div class="col-md-2">
+      <div class="card border-0 p-3 h-100" style="background:#E6F1FB">
+        <div class="small text-muted mb-1">Proteínas</div>
+        <div class="fs-3 fw-bold" style="color:#185FA5">{{ proteinas_hoy }} <span class="fs-6 fw-normal">g</span></div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="card border-0 p-3" style="background:#FAEEDA">
-        <div class="small text-muted">Hidratos</div>
-        <div class="fs-3 fw-500" style="color:#BA7517">0g</div>
+    <div class="col-md-2">
+      <div class="card border-0 p-3 h-100" style="background:#FAEEDA">
+        <div class="small text-muted mb-1">Hidratos</div>
+        <div class="fs-3 fw-bold" style="color:#BA7517">{{ hidratos_hoy }} <span class="fs-6 fw-normal">g</span></div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="card border-0 p-3" style="background:#FBEAF0">
-        <div class="small text-muted">Grasas</div>
-        <div class="fs-3 fw-500" style="color:#993556">0g</div>
+    <div class="col-md-2">
+      <div class="card border-0 p-3 h-100" style="background:#FBEAF0">
+        <div class="small text-muted mb-1">Grasas</div>
+        <div class="fs-3 fw-bold" style="color:#993556">{{ grasas_hoy }} <span class="fs-6 fw-normal">g</span></div>
+      </div>
+    </div>
+    <div class="col-md-2">
+    <div class="card border-0 p-3 h-100" style="background:#EEEDFE">
+      <div class="small text-muted mb-1">Azúcares</div>
+      <div class="fs-3 fw-bold" style="color:#534AB7">{{ azucares_hoy }} <span class="fs-6 fw-normal">g</span></div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Gráfica + comidas de hoy -->
+  <div class="row g-3">
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm p-3">
+        <div class="mb-2" style="font-size:13px;font-weight:500;color:#085041">Calorías — últimos 7 días</div>
+        <canvas id="grafica-calorias" height="100"></canvas>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm p-3 h-100">
+        <div class="mb-2" style="font-size:13px;font-weight:500;color:#085041">Comidas de hoy</div>
+        {% for slot in slots_hoy %}
+          {% if slot.comida %}
+          <div class="d-flex justify-content-between align-items-center py-2" style="border-bottom:0.5px solid #f0f0f0">
+            <div>
+              <div style="font-size:12px;font-weight:500;color:#085041">{{ slot.comida.nombre }}</div>
+              <div style="font-size:10px;color:#888">{{ slot.get_turno_display }}</div>
+            </div>
+            <span style="font-size:11px;color:#0F6E56">{{ slot.comida.calcular_macros.calorias }} kcal</span>
+          </div>
+          {% endif %}
+        {% empty %}
+          <div class="text-center text-muted py-3 small">
+            No hay comidas registradas hoy.<br>
+            <a href="{% url 'plan_semanal' %}" style="color:#0F6E56">Ir al plan semanal</a>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
+
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const ctx = document.getElementById('grafica-calorias').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: {{ labels|safe }},
+    datasets: [{
+      label: 'Calorías',
+      data: {{ datos_calorias|safe }},
+      backgroundColor: '#9FE1CB',
+      borderColor: '#0F6E56',
+      borderWidth: 1,
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: { color: '#f0f0f0' }
+      },
+      x: {
+        grid: { display: false }
+      }
+    }
+  }
+});
+</script>
 {% endblock %}
