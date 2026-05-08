@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}">
+    <span style="color:#9FE1CB">●</span> NutriMed Admin
+  </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+  #header {
+    background: #0F6E56;
+    color: #fff;
+  }
+  #header a:link, #header a:visited {
+    color: #fff;
+  }
+  .module h2, .module caption, .inline-group h2 {
+    background: #0F6E56;
+  }
+  div.breadcrumbs {
+    background: #085041;
+    color: #9FE1CB;
+  }
+  div.breadcrumbs a {
+    color: #9FE1CB;
+  }
+  a:link, a:visited {
+    color: #0F6E56;
+  }
+  .button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #0F6E56;
+    border-color: #085041;
+  }
+  .button:hover, input[type=submit]:hover {
+    background: #085041;
+  }
+</style>
+{% endblock %}

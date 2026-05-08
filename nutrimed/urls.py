@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from alimentos import views as alimentos_views
+from django.contrib import admin
+
+admin.site.site_header = "NutriMed Admin"
+admin.site.site_title = "NutriMed"
+admin.site.index_title = "Panel de administración"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
