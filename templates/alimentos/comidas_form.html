@@ -29,7 +29,7 @@
       <div id="ingredientes-container">
         <div class="row g-2 mb-2 ingrediente-row">
           <div class="col-md-7">
-            <select name="ingrediente_id" class="form-control">
+            <select name="ingrediente_id" class="form-control" required>
               <option value="">-- Selecciona ingrediente --</option>
               {% for alimento in alimentos %}
                 <option value="{{ alimento.id }}">{{ alimento.nombre }} ({{ alimento.calorias }} kcal/100g)</option>
@@ -37,7 +37,7 @@
             </select>
           </div>
           <div class="col-md-3">
-            <input type="number" name="cantidad" class="form-control" placeholder="Gramos" min="1">
+            <input type="number" name="cantidad" class="form-control" placeholder="Gramos" min="1" required>
           </div>
           <div class="col-md-2">
             <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="this.closest('.ingrediente-row').remove()">Quitar</button>
