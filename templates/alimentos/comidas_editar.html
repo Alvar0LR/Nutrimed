@@ -33,17 +33,20 @@
             <select name="ingrediente_id" class="form-control">
               <option value="">-- Selecciona ingrediente --</option>
               {% for alimento in alimentos %}
-                <option value="{{ alimento.id }}" {% if alimento.id == ci.alimento.id %}selected{% endif %}>
+                <option value="{{ alimento.id }}" {% if alimento.id == ci.alimento_id %}selected{% endif %}>
                   {{ alimento.nombre }} ({{ alimento.calorias }} kcal/100g)
                 </option>
               {% endfor %}
             </select>
           </div>
           <div class="col-md-3">
-            <input type="number" name="cantidad" class="form-control" value="{{ ci.cantidad }}" placeholder="Gramos" min="1">
+            <input type="number" name="cantidad" class="form-control"
+                   value="{{ ci.cantidad }}"
+                   placeholder="Gramos" min="0" step="0.1">
           </div>
           <div class="col-md-2">
-            <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="this.closest('.ingrediente-row').remove()">Quitar</button>
+            <button type="button" class="btn btn-outline-danger btn-sm w-100"
+                    onclick="this.closest('.ingrediente-row').remove()">Quitar</button>
           </div>
         </div>
         {% empty %}
@@ -57,10 +60,11 @@
             </select>
           </div>
           <div class="col-md-3">
-            <input type="number" name="cantidad" class="form-control" placeholder="Gramos" min="1">
+            <input type="number" name="cantidad" class="form-control" placeholder="Gramos" min="0" step="0.1">
           </div>
           <div class="col-md-2">
-            <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="this.closest('.ingrediente-row').remove()">Quitar</button>
+            <button type="button" class="btn btn-outline-danger btn-sm w-100"
+                    onclick="this.closest('.ingrediente-row').remove()">Quitar</button>
           </div>
         </div>
         {% endfor %}

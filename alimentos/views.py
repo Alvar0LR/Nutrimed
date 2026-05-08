@@ -116,11 +116,23 @@ def crear_comida(request):
     }
     return render(request, 'alimentos/comidas_form.html', context)
 
+
 @login_required
 def editar_comida(request, id):
     repo = ComidaRepository(request.user)
     comida, ingredientes = repo.get_with_ingredientes(id)
     alimentos = AlimentoRepository(request.user).get_all()
+    
+    # Convertir cantidades a string con punto para el template
+    ingredientes_data = []
+    for ci in ingredientes:
+        ingredientes_data.append({
+            'alimento_id': ci.alimento.id,
+            'alimento_nombre': ci.alimento.nombre,
+            'alimento_calorias': ci.alimento.calorias,
+            'cantidad': str(ci.cantidad).replace(',', '.'),
+        })
+    
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
         turno = request.POST.get('turno')
@@ -130,9 +142,10 @@ def editar_comida(request, id):
         repo.update_ingredientes(comida, ingrediente_ids, cantidades)
         messages.success(request, 'Comida actualizada correctamente.')
         return redirect('lista_comidas')
+    
     context = {
         'comida': comida,
-        'ingredientes': ingredientes,
+        'ingredientes': ingredientes_data,
         'alimentos': alimentos,
         'turnos': Comida.TURNOS,
     }

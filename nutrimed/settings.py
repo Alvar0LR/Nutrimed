@@ -62,7 +62,7 @@ DATABASES = {
     }
 }
 
-LANGUAGE_CODE = 'es-es'
+LANGUAGE_CODE = 'es-us'
 TIME_ZONE = 'Europe/Madrid'
 USE_I18N = True
 USE_TZ = True

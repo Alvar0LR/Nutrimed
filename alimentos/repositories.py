@@ -1,24 +1,50 @@
+from abc import ABC, abstractmethod
 from .models import Alimentos, Comida, ComidaIngrediente, SlotDieta
-from datetime import date, timedelta
+from datetime import timedelta
 
-class AlimentoRepository:
+
+class BaseRepository(ABC):
+
     def __init__(self, usuario):
         self.usuario = usuario
+
+    @abstractmethod
+    def get_all(self):
+        pass
+
+    @abstractmethod
+    def get_by_id(self, id):
+        pass
+
+    @abstractmethod
+    def create(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
+    def delete(self, id):
+        pass
+
+
+class AlimentoRepository(BaseRepository):
 
     def get_all(self):
         return Alimentos.objects.filter(usuario=self.usuario)
 
-    def get_by_grupo(self, grupo):
-        return Alimentos.objects.filter(usuario=self.usuario, grupo=grupo)
-
     def get_by_id(self, id):
         return Alimentos.objects.get(id=id, usuario=self.usuario)
 
-    def buscar(self, query):
-        return Alimentos.objects.filter(usuario=self.usuario, nombre__icontains=query)
-
     def create(self, data):
         return Alimentos.objects.create(usuario=self.usuario, **data)
+
+    def delete(self, id):
+        alimento = self.get_by_id(id)
+        alimento.delete()
+
+    def get_by_grupo(self, grupo):
+        return Alimentos.objects.filter(usuario=self.usuario, grupo=grupo)
+
+    def buscar(self, query):
+        return Alimentos.objects.filter(usuario=self.usuario, nombre__icontains=query)
 
     def update(self, id, data):
         alimento = self.get_by_id(id)
@@ -27,28 +53,29 @@ class AlimentoRepository:
         alimento.save()
         return alimento
 
-    def delete(self, id):
-        alimento = self.get_by_id(id)
-        alimento.delete()
-    
     def contar(self):
         return Alimentos.objects.filter(usuario=self.usuario).count()
 
-class ComidaRepository:
-    def __init__(self, usuario):
-        self.usuario = usuario
+
+class ComidaRepository(BaseRepository):
 
     def get_all(self):
         return Comida.objects.filter(usuario=self.usuario)
 
-    def get_by_name(self, query):
-        return Comida.objects.filter(usuario=self.usuario, nombre__icontains=query)
-
     def get_by_id(self, id):
         return Comida.objects.get(id=id, usuario=self.usuario)
 
-    def create(self, nombre, turno):
+    def create(self, *args, **kwargs):
+        nombre = kwargs.get('nombre') or (args[0] if args else None)
+        turno = kwargs.get('turno') or (args[1] if len(args) > 1 else None)
         return Comida.objects.create(usuario=self.usuario, nombre=nombre, turno=turno)
+
+    def delete(self, id):
+        comida = self.get_by_id(id)
+        comida.delete()
+
+    def get_by_name(self, query):
+        return Comida.objects.filter(usuario=self.usuario, nombre__icontains=query)
 
     def add_ingrediente(self, comida, alimento_id, cantidad):
         return ComidaIngrediente.objects.create(
@@ -57,10 +84,6 @@ class ComidaRepository:
             cantidad=cantidad
         )
 
-    def delete(self, id):
-        comida = self.get_by_id(id)
-        comida.delete()
-    
     def update(self, id, nombre, turno):
         comida = self.get_by_id(id)
         comida.nombre = nombre
@@ -69,15 +92,28 @@ class ComidaRepository:
         return comida
 
     def update_ingredientes(self, comida, ingrediente_ids, cantidades):
+    
+        hay_validos = any(
+            ing_id and cantidad and float(cantidad) > 0
+            for ing_id, cantidad in zip(ingrediente_ids, cantidades)
+            if cantidad
+        )
+    
+        if not hay_validos:
+            return 
+    
         comida.comidaingrediente_set.all().delete()
         for ing_id, cantidad in zip(ingrediente_ids, cantidades):
-            if ing_id and cantidad:
-                self.add_ingrediente(comida, ing_id, cantidad)
-
+            try:
+                cant_float = float(cantidad)
+            except (ValueError, TypeError):
+                cant_float = 0
+            if ing_id and cant_float > 0:
+                self.add_ingrediente(comida, ing_id, cant_float)
 
     def get_with_ingredientes(self, id):
         comida = self.get_by_id(id)
-        ingredientes = comida.comidaingrediente_set.select_related('alimento').all()
+        ingredientes = list(comida.comidaingrediente_set.select_related('alimento').all())
         return comida, ingredientes
 
     def calcular_macros(self, id):
@@ -86,13 +122,25 @@ class ComidaRepository:
 
     def contar(self):
         return Comida.objects.filter(usuario=self.usuario).count()
-    
 
 
-class SlotDietaRepository:
+class SlotDietaRepository(BaseRepository):
 
-    def __init__(self, usuario):
-        self.usuario = usuario
+    def get_all(self):
+        return SlotDieta.objects.filter(usuario=self.usuario)
+
+    def get_by_id(self, id):
+        return SlotDieta.objects.get(id=id, usuario=self.usuario)
+
+    def create(self, *args, **kwargs):
+        fecha = kwargs.get('fecha')
+        turno = kwargs.get('turno')
+        comida_id = kwargs.get('comida_id')
+        return self.asignar(fecha, turno, comida_id)
+
+    def delete(self, id):
+        slot = self.get_by_id(id)
+        slot.delete()
 
     def get_semana(self, fecha_inicio):
         fecha_fin = fecha_inicio + timedelta(days=6)
