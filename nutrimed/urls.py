@@ -31,5 +31,6 @@ urlpatterns = [
     path('plan/asignar/', alimentos_views.asignar_slot, name='asignar_slot'),
     path('plan/quitar/', alimentos_views.quitar_slot, name='quitar_slot'),
     path('plan/seleccionar/<str:fecha>/<str:turno>/', alimentos_views.seleccionar_comida_slot, name='seleccionar_comida_slot'),
+    path('calculadora/', include('calculadora.urls')),
     path('accounts/', include('allauth.urls')),
 ]
