@@ -20,18 +20,18 @@ class CalculoEnergetico(models.Model):
     # Datos de entrada
     sexo = models.CharField(max_length=1, choices=SEXO_CHOICES)
     edad = models.PositiveIntegerField()
-    peso = models.DecimalField(max_digits=5, decimal_places=2)
+    peso = models.DecimalField(max_digits=10, decimal_places=2)
     altura = models.PositiveIntegerField(help_text="Altura en cm")
     actividad = models.CharField(max_length=20, choices=ACTIVIDAD_CHOICES)
 
     # Resultados calculados
-    imc = models.DecimalField(max_digits=5, decimal_places=2)
+    imc = models.DecimalField(max_digits=10, decimal_places=2)
     clasificacion_imc = models.CharField(max_length=50)
-    tmb = models.DecimalField(max_digits=7, decimal_places=2)
-    get = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Gasto Energético Total")
-    proteinas_g = models.DecimalField(max_digits=6, decimal_places=2)
-    hidratos_g = models.DecimalField(max_digits=6, decimal_places=2)
-    grasas_g = models.DecimalField(max_digits=6, decimal_places=2)
+    tmb = models.DecimalField(max_digits=10, decimal_places=2)
+    get = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Gasto Energético Total")
+    proteinas_g = models.DecimalField(max_digits=10, decimal_places=2)
+    hidratos_g = models.DecimalField(max_digits=10, decimal_places=2)
+    grasas_g = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         ordering = ['-fecha']

@@ -66,7 +66,7 @@ DATABASES = {
     }
 }
 
-LANGUAGE_CODE = 'es-us'
+LANGUAGE_CODE = 'es-es'
 TIME_ZONE = 'Europe/Madrid'
 USE_I18N = True
 USE_TZ = True
@@ -87,7 +87,7 @@ SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
-        'OAUTH_PKCE_ENABLED': True,
+        'OAUTH_PKCE_ENABLED': False,
     }
 }
 
@@ -98,6 +98,6 @@ ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
 SOCIALACCOUNT_LOGIN_ON_GET = True
-
-# Esto hace que no verifiques el email
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_STORE_TOKENS = True
