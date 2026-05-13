@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'core',
     'alimentos',
-    'tienda',
+    'calculadora',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% block title %}Calculadora Energética - NutriMed{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <div class="row mb-4">
+    <div class="col">
+      <h2 class="fw-bold" style="color: #0F6E56;">
+        <i class="bi bi-calculator me-2"></i>Calculadora Energética
+      </h2>
+      <p class="text-muted">Calcula tu gasto energético diario y distribución de macronutrientes según la fórmula Mifflin-St Jeor (precisión 79%)</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- FORMULARIO -->
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header text-white" style="background-color: #0F6E56;">
+          <h5 class="mb-0"><i class="bi bi-person-fill me-2"></i>Tus datos</h5>
+        </div>
+        <div class="card-body">
+          <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label fw-semibold">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <div class="text-danger small mt-1">{{ field.errors }}</div>
+              {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn w-100 text-white fw-bold" style="background-color: #0F6E56;">
+              <i class="bi bi-lightning-fill me-2"></i>Calcular
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="col-lg-7">
+      {% if resultado %}
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header text-white" style="background-color: #0F6E56;">
+          <h5 class="mb-0"><i class="bi bi-bar-chart-fill me-2"></i>Tus resultados</h5>
+        </div>
+        <div class="card-body">
+
+          <!-- IMC -->
+          <div class="row g-3 mb-4">
+            <div class="col-6">
+              <div class="p-3 rounded text-center" style="background-color: #e8f5f0;">
+                <div class="fs-2 fw-bold" style="color: #0F6E56;">{{ resultado.imc }}</div>
+                <div class="small text-muted">IMC (kg/m²)</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 rounded text-center" style="background-color: #e8f5f0;">
+                <div class="fs-5 fw-bold" style="color: #0F6E56;">{{ resultado.clasificacion_imc }}</div>
+                <div class="small text-muted">Clasificación OMS</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TMB y GET -->
+          <div class="row g-3 mb-4">
+            <div class="col-6">
+              <div class="p-3 rounded text-center border">
+                <div class="fs-3 fw-bold text-secondary">{{ resultado.tmb }}</div>
+                <div class="small text-muted">TMB (kcal/día)</div>
+                <div class="small text-muted fst-italic">Metabolismo basal</div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 rounded text-center text-white" style="background-color: #0F6E56;">
+                <div class="fs-3 fw-bold">{{ resultado.get }}</div>
+                <div class="small">GET (kcal/día)</div>
+                <div class="small fst-italic">Gasto total diario</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MACROS -->
+          <h6 class="fw-bold mb-3" style="color: #0F6E56;">Distribución de macronutrientes recomendada</h6>
+          <div class="row g-3">
+            <div class="col-4">
+              <div class="p-3 rounded text-center" style="background-color: #fff3cd;">
+                <div class="fs-4 fw-bold text-warning">{{ resultado.hidratos_g }}g</div>
+                <div class="small text-muted">Hidratos</div>
+                <div class="small text-muted">55% · 4 kcal/g</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-3 rounded text-center" style="background-color: #d1ecf1;">
+                <div class="fs-4 fw-bold text-info">{{ resultado.proteinas_g }}g</div>
+                <div class="small text-muted">Proteínas</div>
+                <div class="small text-muted">15% · 4 kcal/g</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="p-3 rounded text-center" style="background-color: #f8d7da;">
+                <div class="fs-4 fw-bold text-danger">{{ resultado.grasas_g }}g</div>
+                <div class="small text-muted">Grasas</div>
+                <div class="small text-muted">30% · 9 kcal/g</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-light border mt-4 mb-0 small">
+            <i class="bi bi-info-circle me-1" style="color: #0F6E56;"></i>
+            Calculado con la fórmula <strong>Mifflin-St Jeor (1990)</strong> con factor de actividad FAO/WHO/ONU.
+            Distribución: HC 55% · Proteínas 15% · Grasas 30%.
+          </div>
+
+        </div>
+      </div>
+      {% else %}
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center py-5">
+          <i class="bi bi-calculator" style="font-size: 4rem; color: #0F6E56; opacity: 0.3;"></i>
+          <p class="text-muted mt-3">Introduce tus datos y pulsa <strong>Calcular</strong> para ver tus resultados.</p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- HISTORIAL -->
+  {% if historial %}
+  <div class="row mt-5">
+    <div class="col">
+      <h4 class="fw-bold mb-3" style="color: #0F6E56;">
+        <i class="bi bi-clock-history me-2"></i>Historial de cálculos
+      </h4>
+      <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead style="background-color: #0F6E56; color: white;">
+              <tr>
+                <th>Fecha</th>
+                <th>Peso</th>
+                <th>Altura</th>
+                <th>IMC</th>
+                <th>Clasificación</th>
+                <th>GET</th>
+                <th>Actividad</th>
+                <th class="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in historial %}
+              <tr>
+                <td>{{ c.fecha|date:"d/m/Y H:i" }}</td>
+                <td>{{ c.peso }} kg</td>
+                <td>{{ c.altura }} cm</td>
+                <td><strong>{{ c.imc }}</strong></td>
+                <td>
+                  <span class="badge
+                    {% if c.clasificacion_imc == 'Normopeso' %}bg-success
+                    {% elif c.clasificacion_imc == 'Bajo peso' %}bg-warning text-dark
+                    {% else %}bg-danger{% endif %}">
+                    {{ c.clasificacion_imc }}
+                  </span>
+                </td>
+                <td><strong style="color: #0F6E56;">{{ c.get }} kcal</strong></td>
+                <td>{{ c.get_actividad_display }}</td>
+                <td class="text-center">
+                  <div class="d-flex gap-2 justify-content-center">
+
+                    <!-- BOTÓN OBSERVAR -->
+                    <a href="{% url 'calculadora' %}?ver={{ c.id }}"
+                       class="btn btn-sm text-white"
+                       style="background-color: #0F6E56;"
+                       title="Ver este cálculo">
+                      <i class="bi bi-eye-fill"></i>
+                    </a>
+
+                    <!-- BOTÓN ELIMINAR -->
+                    <form method="POST" action="{% url 'eliminar_calculo' c.id %}"
+                          onsubmit="return confirm('¿Eliminar este cálculo?')">
+                      {% csrf_token %}
+                      <button type="submit"
+                              class="btn btn-sm btn-danger"
+                              title="Eliminar">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </form>
+
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
