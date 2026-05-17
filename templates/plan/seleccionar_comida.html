@@ -1,18 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Seleccionar comida — NutriMed{% endblock %}
+
 {% block content %}
-<div class="container py-4" style="max-width:600px">
+<div class="container container-seleccionar py-4">
+
   <div class="d-flex align-items-center gap-3 mb-4">
-    <a href="{% url 'plan_semanal' %}" class="btn btn-outline-secondary btn-sm">← Volver</a>
+    <a href="{% url 'plan_semanal' %}" class="btn btn-outline-secondary btn-sm btn-volver">Volver</a>
     <div>
-      <h2 style="color:#085041">Seleccionar comida</h2>
+      <h2 class="texto-verde mb-0">Seleccionar comida</h2>
       <span class="text-muted small">{{ turno_label }} · {{ fecha }}</span>
     </div>
   </div>
 
   <form method="GET" class="d-flex gap-2 mb-3">
     <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Buscar comida...">
-    <button type="submit" class="btn text-white" style="background:#0F6E56">Buscar</button>
+    <button type="submit" class="btn btn-nutrimed">Buscar</button>
     {% if query %}
       <a href="?" class="btn btn-outline-secondary">Limpiar</a>
     {% endif %}
@@ -23,25 +26,27 @@
     <input type="hidden" name="semana_offset" value="0">
     <div class="d-flex flex-column gap-2">
       {% for comida in comidas %}
-      <label style="border:0.5px solid #e0e0e0;border-radius:8px;padding:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+      <label class="comida-radio-label">
         <div class="d-flex align-items-center gap-3">
           <input type="radio" name="comida_id" value="{{ comida.id }}" required>
           <div>
-            <div style="font-size:13px;font-weight:500;color:#085041">{{ comida.nombre }}</div>
-            <div style="font-size:11px;color:#888">{{ comida.get_turno_display }}</div>
+            <div class="comida-radio-nombre">{{ comida.nombre }}</div>
+            <div class="comida-radio-turno">{{ comida.get_turno_display }}</div>
           </div>
         </div>
-        <span style="font-size:12px;color:#0F6E56;font-weight:500">{{ comida.calcular_macros.calorias }} kcal</span>
+        <span class="comida-radio-kcal">{{ comida.calcular_macros.calorias }} kcal</span>
       </label>
       {% empty %}
       <div class="text-center text-muted py-4">
-        No hay comidas. <a href="{% url 'crear_comida' %}" style="color:#0F6E56">Crea una primero</a>
+        No hay comidas.
+        <a href="{% url 'crear_comida' %}" class="enlace-verde">Crea una primero</a>
       </div>
       {% endfor %}
     </div>
     {% if comidas %}
-    <button type="submit" class="btn text-white mt-3 w-100" style="background:#0F6E56">Asignar comida</button>
+    <button type="submit" class="btn btn-nutrimed mt-3 w-100">Asignar comida</button>
     {% endif %}
   </form>
+
 </div>
 {% endblock %}

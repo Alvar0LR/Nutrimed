@@ -1,23 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Nueva comida — NutriMed{% endblock %}
+
 {% block content %}
-<div class="container py-4" style="max-width:900px">
+<div class="container container-form-lg py-4">
+
   <div class="d-flex align-items-center gap-3 mb-4">
-    <a href="{% url 'lista_comidas' %}" class="btn btn-outline-secondary btn-sm">← Volver</a>
-    <h2 style="color:#085041">Nueva comida</h2>
+    <a href="{% url 'lista_comidas' %}" class="btn btn-outline-secondary btn-sm btn-volver">Volver</a>
+    <h2 class="form-titulo mb-0">Nueva comida</h2>
   </div>
 
-  <div class="card border-0 shadow-sm p-4">
+  <div class="card border-0 shadow-sm p-4 form-card">
     <form method="POST">
       {% csrf_token %}
       <div class="row g-3 mb-4">
         <div class="col-md-6">
-          <label class="form-label small text-muted">Nombre de la comida</label>
+          <label class="form-label">Nombre de la comida</label>
           <input type="text" name="nombre" class="form-control" placeholder="Ej: Lentejas con chorizo" required>
         </div>
         <div class="col-md-6">
-          <label class="form-label small text-muted">Turno habitual</label>
-          <select name="turno" class="form-control" required>
+          <label class="form-label">Turno habitual</label>
+          <select name="turno" class="form-select" required>
             {% for val, label in turnos %}
               <option value="{{ val }}">{{ label }}</option>
             {% endfor %}
@@ -25,11 +28,11 @@
         </div>
       </div>
 
-      <h5 style="color:#085041" class="mb-3">Ingredientes</h5>
+      <h5 class="form-titulo mb-3">Ingredientes</h5>
       <div id="ingredientes-container">
         <div class="row g-2 mb-2 ingrediente-row">
           <div class="col-md-7">
-            <select name="ingrediente_id" class="form-control" required>
+            <select name="ingrediente_id" class="form-select" required>
               <option value="">-- Selecciona ingrediente --</option>
               {% for alimento in alimentos %}
                 <option value="{{ alimento.id }}">{{ alimento.nombre }} ({{ alimento.calorias }} kcal/100g)</option>
@@ -40,33 +43,28 @@
             <input type="number" name="cantidad" class="form-control" placeholder="Gramos" min="1" required>
           </div>
           <div class="col-md-2">
-            <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="this.closest('.ingrediente-row').remove()">Quitar</button>
+            <button type="button" class="btn btn-outline-danger btn-sm w-100"
+                    onclick="this.closest('.ingrediente-row').remove()">
+              <i class="bi bi-trash me-1"></i>Quitar
+            </button>
           </div>
         </div>
       </div>
 
       <button type="button" class="btn btn-outline-secondary btn-sm mt-2" onclick="añadirIngrediente()">
-        + Añadir ingrediente
+        <i class="bi bi-plus-lg me-1"></i>Añadir ingrediente
       </button>
 
       <div class="d-flex gap-2 mt-4">
-        <button type="submit" class="btn text-white" style="background:#0F6E56">Guardar comida</button>
+        <button type="submit" class="btn btn-nutrimed">Guardar comida</button>
         <a href="{% url 'lista_comidas' %}" class="btn btn-outline-secondary">Cancelar</a>
       </div>
     </form>
   </div>
+
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script>
-function añadirIngrediente() {
-  const container = document.getElementById('ingredientes-container');
-  const primera = container.querySelector('.ingrediente-row');
-  const nueva = primera.cloneNode(true);
-  nueva.querySelector('select').value = '';
-  nueva.querySelector('input').value = '';
-  container.appendChild(nueva);
-}
-</script>
+<script src="{% static 'js/comidas_form.js' %}"></script>
 {% endblock %}

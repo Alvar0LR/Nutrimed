@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}
-Registro — NutriMed
-{% endblock %}
+{% load static %}
+{% block title %}Registro — NutriMed{% endblock %}
+
 {% block content %}
-<div class="container" style="min-height:100vh; display:flex; align-items:center; justify-content:center">
-  <div class="row w-100" style="max-width:800px">
-    <div class="col-md-6 p-5 rounded-start" style="background:#E1F5EE">
-      <div class="mb-3" style="color:#0F6E56; font-weight:500; font-size:18px">● NutriMed</div>
-      <h2 style="color:#085041">Crea tu cuenta</h2>
-      <p style="color:#0F6E56">Empieza a gestionar tu dieta médica de forma inteligente.</p>
-      <span class="badge mt-3" style="background:#9FE1CB; color:#085041">Registro gratuito</span>
+<div class="container login-container">
+  <div class="row w-100 login-wrapper">
+    <div class="col-md-6 p-5 rounded-start login-panel-izq">
+      <div class="mb-3 login-brand">● NutriMed</div>
+      <h2 class="login-titulo">Crea tu cuenta</h2>
+      <p class="login-subtitulo">Empieza a gestionar tu dieta médica de forma inteligente.</p>
+      <span class="badge mt-3 login-badge">Registro gratuito</span>
     </div>
     <div class="col-md-6 p-5 bg-white rounded-end border">
       <a href="{% url 'google_login' %}" class="btn btn-outline-secondary w-100 mb-3 d-flex align-items-center justify-content-center gap-2">
@@ -35,10 +35,10 @@ Registro — NutriMed
         <div class="mb-3">
           <input type="password" name="password2" class="form-control" placeholder="Repite la contraseña">
         </div>
-        <button type="submit" class="btn w-100 text-white" style="background:#0F6E56">Crear cuenta</button>
+        <button type="submit" class="btn btn-nutrimed w-100">Crear cuenta</button>
       </form>
       <p class="text-center mt-3 small text-muted">
-        ¿Ya tienes cuenta? <a href="{% url 'account_login' %}" style="color:#0F6E56">Inicia sesión</a>
+        ¿Ya tienes cuenta? <a href="{% url 'account_login' %}" class="enlace-verde">Inicia sesión</a>
       </p>
     </div>
   </div>

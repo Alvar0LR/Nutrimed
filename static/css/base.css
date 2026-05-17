@@ -1,0 +1,665 @@
+/* ===== VARIABLES CORPORATIVAS ===== */
+:root {
+  --verde: #0F6E56;
+  --verde-oscuro: #0a5a45;
+  --verde-claro: #e8f5f0;
+  --rojo: #A32D2D;
+  --rojo-oscuro: #8a2424;
+  --gris-claro: #f8f9fa;
+}
+
+/* ===== BODY ===== */
+body {
+  background-color: #f5f7f6;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ===== MAIN ===== */
+main {
+  min-height: calc(100vh - 60px);
+  padding-bottom: 2rem;
+}
+
+/* ===== NAVBAR ===== */
+.navbar-nutrimed {
+  background-color: var(--verde);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.navbar-nutrimed .navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.navbar-nutrimed .nav-link {
+  color: rgba(255,255,255,0.85) !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.navbar-nutrimed .nav-link:hover {
+  color: white !important;
+  background: rgba(255,255,255,0.15);
+}
+
+.navbar-toggler {
+  border-color: rgba(255,255,255,0.5);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255%2c255%2c255%2c0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ===== CARDS ===== */
+.card {
+  border-radius: 12px !important;
+}
+
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
+}
+
+/* ===== BOTONES ===== */
+.btn-nutrimed {
+  background-color: var(--verde);
+  color: white;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.btn-nutrimed:hover {
+  background-color: var(--verde-oscuro);
+  color: white;
+}
+
+.btn-eliminar-rojo {
+  background-color: var(--rojo);
+  color: white;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.btn-eliminar-rojo:hover {
+  background-color: var(--rojo-oscuro);
+  color: white;
+}
+
+.btn-volver {
+  color: #6c757d;
+  border-color: #dee2e6;
+}
+
+.btn-volver:hover {
+  background: #f8f9fa;
+}
+
+.btn-editar {
+  border: 0.5px solid #85B7EB;
+  color: #185FA5;
+}
+
+.btn-editar:hover {
+  background: #E6F1FB;
+  color: #185FA5;
+}
+
+.btn-eliminar-tabla {
+  border: 0.5px solid #F09595;
+  color: var(--rojo);
+}
+
+.btn-eliminar-tabla:hover {
+  background: #FCEBEB;
+  color: var(--rojo);
+}
+
+/* ===== TABLAS ===== */
+.table thead th {
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  font-weight: 500;
+  padding: 0.4em 0.8em;
+  border-radius: 6px;
+}
+
+.badge-apto {
+  background: #E1F5EE;
+  color: #085041;
+}
+
+.badge-moderado {
+  background: #FAEEDA;
+  color: #412402;
+}
+
+.badge-evitar {
+  background: #FCEBEB;
+  color: #501313;
+}
+
+/* ===== TEXTOS ===== */
+.texto-verde {
+  color: #085041;
+}
+
+.texto-verde-claro {
+  color: var(--verde);
+}
+
+.texto-rojo {
+  color: var(--rojo);
+}
+
+.titulo-eliminar {
+  color: var(--rojo);
+}
+
+/* ===== ENLACES ===== */
+a.enlace-verde {
+  color: var(--verde);
+}
+
+a.enlace-verde:hover {
+  color: #085041;
+}
+
+/* ===== FORMULARIOS ===== */
+.form-titulo {
+  color: #085041;
+}
+
+.form-card {
+  border-radius: 12px;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--verde);
+  box-shadow: 0 0 0 0.2rem rgba(15, 110, 86, 0.15);
+}
+
+/* ===== ALIMENTOS ===== */
+.alimentos-titulo {
+  color: #085041;
+  margin-bottom: 2px;
+}
+
+.tabla-alimentos thead {
+  background: #E1F5EE;
+}
+
+.tabla-alimentos thead th {
+  color: #085041;
+}
+
+/* ===== DASHBOARD ===== */
+.metrica-card {
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.metrica-card:hover {
+  transform: translateY(-2px);
+}
+
+.metrica-calorias  { background: #E1F5EE; }
+.metrica-proteinas { background: #E6F1FB; }
+.metrica-hidratos  { background: #FAEEDA; }
+.metrica-grasas    { background: #FBEAF0; }
+.metrica-azucares  { background: #EEEDFE; }
+
+.metrica-valor-calorias  { color: var(--verde); }
+.metrica-valor-proteinas { color: #185FA5; }
+.metrica-valor-hidratos  { color: #BA7517; }
+.metrica-valor-grasas    { color: #993556; }
+.metrica-valor-azucares  { color: #534AB7; }
+
+.dashboard-titulo {
+  color: #085041;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.comida-slot {
+  border-bottom: 0.5px solid #f0f0f0;
+}
+
+.comida-nombre {
+  font-size: 12px;
+  font-weight: 500;
+  color: #085041;
+}
+
+.comida-turno {
+  font-size: 10px;
+  color: #888;
+}
+
+.comida-kcal {
+  font-size: 11px;
+  color: var(--verde);
+}
+
+/* ===== LANDING ===== */
+.landing-hero {
+  background: #e1f5ee;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.landing-badge {
+  background: #9fe1cb;
+  color: #085041;
+  font-size: 13px;
+}
+
+.landing-titulo {
+  color: #085041;
+}
+
+.landing-subtitulo {
+  color: var(--verde);
+}
+
+.landing-btn-primary {
+  background: var(--verde);
+  color: white;
+}
+
+.landing-btn-primary:hover {
+  background: var(--verde-oscuro);
+  color: white;
+}
+
+.landing-btn-secondary {
+  border: 1px solid #1d9e75;
+  color: var(--verde);
+}
+
+.landing-btn-secondary:hover {
+  background: #e1f5ee;
+}
+
+.landing-circulo {
+  width: 200px;
+  height: 200px;
+  background: #9fe1cb;
+  border-radius: 50%;
+  margin: auto;
+  opacity: 0.6;
+}
+
+.feature-card {
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+}
+
+.feature-card-verde   { border-top: 4px solid var(--verde) !important; }
+.feature-card-azul    { border-top: 4px solid #378add !important; }
+.feature-card-naranja { border-top: 4px solid #ef9f27 !important; }
+.feature-card-rojo    { border-top: 4px solid #d85a30 !important; }
+
+/* ===== CALCULADORA ===== */
+.calculadora-resultado {
+  background: var(--verde-claro);
+}
+
+/* ===== COOKIES ===== */
+#cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: #1a1a1a;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+}
+
+#cookie-banner p {
+  margin: 0;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.cookie-icono {
+  color: #4ade80;
+}
+
+.cookie-botones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cookie-btn-aceptar {
+  background-color: var(--verde);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cookie-btn-aceptar:hover {
+  background-color: var(--verde-oscuro);
+}
+
+.cookie-btn-rechazar {
+  background-color: transparent;
+  color: #aaa;
+  border: 1px solid #555;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cookie-btn-rechazar:hover {
+  color: #fff;
+  border-color: #aaa;
+}
+
+.feature-icono-verde   { color: #0f6e56; }
+.feature-icono-azul    { color: #378add; }
+.feature-icono-naranja { color: #ef9f27; }
+.feature-icono-rojo    { color: #d85a30; }
+
+.input-buscar {
+  max-width: 250px;
+}
+
+.select-grupo {
+  max-width: 180px;
+}
+
+.container-form {
+  max-width: 800px;
+}
+
+.container-confirmar {
+  max-width: 500px;
+}
+
+.input-buscar-comidas {
+  max-width: 300px;
+}
+
+.comida-kcal-grande {
+  color: var(--verde);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.macro-proteinas { color: #185FA5; }
+.macro-hidratos  { color: #BA7517; }
+.macro-grasas    { color: #993556; }
+
+.badge-ingrediente {
+  background: #F1EFE8;
+  color: #444;
+  font-weight: 400;
+  font-size: 11px;
+}
+
+.container-form-lg {
+  max-width: 900px;
+}
+
+.calc-card-header {
+  background-color: var(--verde);
+}
+
+.calc-imc-box {
+  background-color: var(--verde-claro);
+}
+
+.calc-get-box {
+  background-color: var(--verde);
+}
+
+.calc-hidratos-box {
+  background-color: #fff3cd;
+}
+
+.calc-proteinas-box {
+  background-color: #d1ecf1;
+}
+
+.calc-grasas-box {
+  background-color: #f8d7da;
+}
+
+.calc-icono-vacio {
+  font-size: 4rem;
+  color: var(--verde);
+  opacity: 0.3;
+}
+
+.calc-tabla thead {
+  background-color: var(--verde);
+  color: white;
+}
+
+.calc-get-valor {
+  color: var(--verde);
+}
+
+.modal-header-rojo {
+  background-color: var(--rojo);
+}
+
+.calc-info-icono {
+  color: var(--verde);
+}
+
+.btn-ver-calculo {
+  background-color: var(--verde);
+  color: white;
+}
+
+.btn-ver-calculo:hover {
+  background-color: var(--verde-oscuro);
+  color: white;
+}
+
+/* ===== PLAN SEMANAL ===== */
+.plan-tabla {
+  min-width: 900px;
+}
+
+.plan-thead-celda {
+  background: #E1F5EE;
+  color: #085041;
+}
+
+.plan-thead-celda-hoy {
+  background: #9FE1CB;
+  color: #085041;
+}
+
+.plan-dia-nombre {
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.plan-dia-numero {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.plan-turno-celda {
+  font-size: 11px;
+  font-weight: 500;
+  color: #085041;
+  background: #F7FBF9;
+  white-space: nowrap;
+}
+
+.plan-slot-celda {
+  min-width: 120px;
+  vertical-align: top;
+  padding: 6px;
+}
+
+.plan-slot-ocupado {
+  background: #E1F5EE;
+  border-radius: 6px;
+  padding: 5px 8px;
+  position: relative;
+}
+
+.plan-slot-nombre {
+  font-size: 11px;
+  font-weight: 500;
+  color: #085041;
+  padding-right: 16px;
+}
+
+.plan-slot-kcal {
+  font-size: 10px;
+  color: var(--verde);
+}
+
+.plan-slot-quitar {
+  background: none;
+  border: none;
+  color: var(--rojo);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  position: absolute;
+  top: 3px;
+  right: 4px;
+}
+
+.plan-slot-vacio {
+  display: block;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+  text-decoration: none;
+}
+
+.plan-slot-vacio:hover {
+  border-color: var(--verde);
+  color: var(--verde);
+}
+
+/* ===== SELECCIONAR COMIDA ===== */
+.comida-radio-label {
+  border: 0.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.2s;
+}
+
+.comida-radio-label:hover {
+  border-color: var(--verde);
+}
+
+.comida-radio-nombre {
+  font-size: 13px;
+  font-weight: 500;
+  color: #085041;
+}
+
+.comida-radio-turno {
+  font-size: 11px;
+  color: #888;
+}
+
+.comida-radio-kcal {
+  font-size: 12px;
+  color: var(--verde);
+  font-weight: 500;
+}
+
+.container-seleccionar {
+  max-width: 600px;
+}
+
+.plan-thead-celda {
+  background: #E1F5EE !important;
+  color: #085041 !important;
+}
+
+.plan-thead-celda-hoy {
+  background: #9FE1CB !important;
+  color: #085041 !important;
+}
+
+/* ===== LOGIN ===== */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-wrapper {
+  max-width: 800px;
+}
+
+.login-panel-izq {
+  background: #E1F5EE;
+}
+
+.login-brand {
+  color: var(--verde);
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.login-titulo {
+  color: #085041;
+}
+
+.login-subtitulo {
+  color: var(--verde);
+}
+
+.login-badge {
+  background: #9FE1CB;
+  color: #085041;
+}

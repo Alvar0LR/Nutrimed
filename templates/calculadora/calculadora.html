@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Calculadora Energética - NutriMed{% endblock %}
 
 {% block content %}
@@ -7,9 +7,7 @@
 
   <div class="row mb-4">
     <div class="col">
-      <h2 class="fw-bold" style="color: #0F6E56;">
-        <i class="bi bi-calculator me-2"></i>Calculadora Energética
-      </h2>
+      <h2 class="fw-bold texto-verde-claro">Calculadora Energética</h2>
       <p class="text-muted">Calcula tu gasto energético diario y distribución de macronutrientes según la fórmula Mifflin-St Jeor (precisión 79%)</p>
     </div>
   </div>
@@ -17,7 +15,7 @@
   {% if messages %}
   {% for message in messages %}
   <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <i class="bi bi-check-circle me-2"></i>{{ message }}
+    {{ message }}
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
   </div>
   {% endfor %}
@@ -28,8 +26,8 @@
     <!-- FORMULARIO -->
     <div class="col-lg-5">
       <div class="card shadow-sm border-0 h-100">
-        <div class="card-header text-white" style="background-color: #0F6E56;">
-          <h5 class="mb-0"><i class="bi bi-person-fill me-2"></i>Tus datos</h5>
+        <div class="card-header text-white calc-card-header">
+          <h5 class="mb-0">Tus datos</h5>
         </div>
         <div class="card-body">
           <form method="POST">
@@ -43,9 +41,7 @@
               {% endif %}
             </div>
             {% endfor %}
-            <button type="submit" class="btn w-100 text-white fw-bold" style="background-color: #0F6E56;">
-              <i class="bi bi-lightning-fill me-2"></i>Calcular
-            </button>
+            <button type="submit" class="btn btn-nutrimed w-100">Calcular</button>
           </form>
         </div>
       </div>
@@ -55,15 +51,11 @@
     <div class="col-lg-7">
       {% if resultado %}
       <div class="card shadow-sm border-0 mb-4">
-        <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #0F6E56;">
-          <h5 class="mb-0"><i class="bi bi-bar-chart-fill me-2"></i>Tus resultados</h5>
+        <div class="card-header text-white d-flex justify-content-between align-items-center calc-card-header">
+          <h5 class="mb-0">Tus resultados</h5>
           <div class="d-flex gap-2">
-            <a href="{% url 'exportar_excel' resultado.id %}" class="btn btn-sm btn-light fw-semibold">
-              <i class="bi bi-file-earmark-excel me-1"></i>Excel
-            </a>
-            <a href="{% url 'exportar_pdf' resultado.id %}" class="btn btn-sm btn-light fw-semibold">
-              <i class="bi bi-file-earmark-pdf me-1"></i>PDF
-            </a>
+            <a href="{% url 'exportar_excel' resultado.id %}" class="btn btn-sm btn-light fw-semibold">Excel</a>
+            <a href="{% url 'exportar_pdf' resultado.id %}" class="btn btn-sm btn-light fw-semibold">PDF</a>
           </div>
         </div>
         <div class="card-body">
@@ -71,14 +63,14 @@
           <!-- IMC -->
           <div class="row g-3 mb-4">
             <div class="col-6">
-              <div class="p-3 rounded text-center" style="background-color: #e8f5f0;">
-                <div class="fs-2 fw-bold" style="color: #0F6E56;">{{ resultado.imc }}</div>
+              <div class="p-3 rounded text-center calc-imc-box">
+                <div class="fs-2 fw-bold texto-verde-claro">{{ resultado.imc }}</div>
                 <div class="small text-muted">IMC (kg/m²)</div>
               </div>
             </div>
             <div class="col-6">
-              <div class="p-3 rounded text-center" style="background-color: #e8f5f0;">
-                <div class="fs-5 fw-bold" style="color: #0F6E56;">{{ resultado.clasificacion_imc }}</div>
+              <div class="p-3 rounded text-center calc-imc-box">
+                <div class="fs-5 fw-bold texto-verde-claro">{{ resultado.clasificacion_imc }}</div>
                 <div class="small text-muted">Clasificación OMS</div>
               </div>
             </div>
@@ -94,7 +86,7 @@
               </div>
             </div>
             <div class="col-6">
-              <div class="p-3 rounded text-center text-white" style="background-color: #0F6E56;">
+              <div class="p-3 rounded text-center text-white calc-get-box">
                 <div class="fs-3 fw-bold">{{ resultado.get }}</div>
                 <div class="small">GET (kcal/día)</div>
                 <div class="small fst-italic">Gasto total diario</div>
@@ -103,24 +95,24 @@
           </div>
 
           <!-- MACROS -->
-          <h6 class="fw-bold mb-3" style="color: #0F6E56;">Distribución de macronutrientes recomendada</h6>
+          <h6 class="fw-bold mb-3 texto-verde-claro">Distribución de macronutrientes recomendada</h6>
           <div class="row g-3">
             <div class="col-4">
-              <div class="p-3 rounded text-center" style="background-color: #fff3cd;">
+              <div class="p-3 rounded text-center calc-hidratos-box">
                 <div class="fs-4 fw-bold text-warning">{{ resultado.hidratos_g }}g</div>
                 <div class="small text-muted">Hidratos</div>
                 <div class="small text-muted">55% · 4 kcal/g</div>
               </div>
             </div>
             <div class="col-4">
-              <div class="p-3 rounded text-center" style="background-color: #d1ecf1;">
+              <div class="p-3 rounded text-center calc-proteinas-box">
                 <div class="fs-4 fw-bold text-info">{{ resultado.proteinas_g }}g</div>
                 <div class="small text-muted">Proteínas</div>
                 <div class="small text-muted">15% · 4 kcal/g</div>
               </div>
             </div>
             <div class="col-4">
-              <div class="p-3 rounded text-center" style="background-color: #f8d7da;">
+              <div class="p-3 rounded text-center calc-grasas-box">
                 <div class="fs-4 fw-bold text-danger">{{ resultado.grasas_g }}g</div>
                 <div class="small text-muted">Grasas</div>
                 <div class="small text-muted">30% · 9 kcal/g</div>
@@ -129,7 +121,7 @@
           </div>
 
           <div class="alert alert-light border mt-4 mb-0 small">
-            <i class="bi bi-info-circle me-1" style="color: #0F6E56;"></i>
+            <i class="bi bi-info-circle me-1 calc-info-icono"></i>
             Calculado con la fórmula <strong>Mifflin-St Jeor (1990)</strong> con factor de actividad FAO/WHO/ONU.
             Distribución: HC 55% · Proteínas 15% · Grasas 30%.
           </div>
@@ -139,7 +131,7 @@
       {% else %}
       <div class="card shadow-sm border-0 h-100">
         <div class="card-body d-flex flex-column align-items-center justify-content-center text-center py-5">
-          <i class="bi bi-calculator" style="font-size: 4rem; color: #0F6E56; opacity: 0.3;"></i>
+          <i class="bi bi-calculator calc-icono-vacio"></i>
           <p class="text-muted mt-3">Introduce tus datos y pulsa <strong>Calcular</strong> para ver tus resultados.</p>
         </div>
       </div>
@@ -152,13 +144,11 @@
   {% if historial %}
   <div class="row mt-5">
     <div class="col">
-      <h4 class="fw-bold mb-3" style="color: #0F6E56;">
-        <i class="bi bi-clock-history me-2"></i>Historial de cálculos
-      </h4>
+      <h4 class="fw-bold mb-3 texto-verde-claro">Historial de cálculos</h4>
       <div class="card shadow-sm border-0">
         <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead style="background-color: #0F6E56; color: white;">
+          <table class="table table-hover align-middle mb-0 calc-tabla">
+            <thead>
               <tr>
                 <th>Fecha</th>
                 <th>Peso</th>
@@ -185,20 +175,15 @@
                     {{ c.clasificacion_imc }}
                   </span>
                 </td>
-                <td><strong style="color: #0F6E56;">{{ c.get }} kcal</strong></td>
+                <td><strong class="calc-get-valor">{{ c.get }} kcal</strong></td>
                 <td>{{ c.get_actividad_display }}</td>
                 <td class="text-center">
                   <div class="d-flex gap-2 justify-content-center">
-
-                    <!-- BOTÓN OBSERVAR -->
                     <a href="{% url 'calculadora' %}?ver={{ c.id }}"
-                       class="btn btn-sm text-white"
-                       style="background-color: #0F6E56;"
+                       class="btn btn-sm btn-ver-calculo"
                        title="Ver este cálculo">
                       <i class="bi bi-eye-fill"></i>
                     </a>
-
-                    <!-- BOTÓN ELIMINAR abre modal -->
                     <button type="button"
                             class="btn btn-sm btn-danger"
                             title="Eliminar"
@@ -209,7 +194,6 @@
                             data-get="{{ c.get }}">
                       <i class="bi bi-trash-fill"></i>
                     </button>
-
                   </div>
                 </td>
               </tr>
@@ -228,23 +212,21 @@
 <div class="modal fade" id="modalEliminar" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow">
-      <div class="modal-header" style="background-color: #A32D2D;">
-        <h5 class="modal-title text-white">
-          <i class="bi bi-exclamation-triangle-fill me-2"></i>¿Eliminar cálculo?
-        </h5>
+      <div class="modal-header modal-header-rojo">
+        <h5 class="modal-title text-white">¿Eliminar cálculo?</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body text-center py-4">
         <p class="text-muted mb-1">Vas a eliminar el cálculo del</p>
         <p class="fw-bold fs-5" id="modalFecha"></p>
         <p class="text-muted mb-1">Gasto energético total:</p>
-        <p class="fw-bold fs-4" style="color: #0F6E56;" id="modalGet"></p>
+        <p class="fw-bold fs-4 texto-verde-claro" id="modalGet"></p>
         <p class="text-danger small">Esta acción no se puede deshacer.</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
         <form method="POST" id="formEliminar">
           {% csrf_token %}
-          <button type="submit" class="btn text-white px-4" style="background-color: #A32D2D;">
+          <button type="submit" class="btn btn-eliminar-rojo px-4">
             <i class="bi bi-trash-fill me-2"></i>Sí, eliminar
           </button>
         </form>
@@ -259,18 +241,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-  // Rellena el modal con los datos del cálculo a eliminar
-  const modalEliminar = document.getElementById('modalEliminar')
-  modalEliminar.addEventListener('show.bs.modal', function (event) {
-    const btn = event.relatedTarget
-    const id = btn.getAttribute('data-id')
-    const fecha = btn.getAttribute('data-fecha')
-    const get = btn.getAttribute('data-get')
-
-    document.getElementById('modalFecha').textContent = fecha
-    document.getElementById('modalGet').textContent = get + ' kcal'
-    document.getElementById('formEliminar').action = '/calculadora/eliminar/' + id + '/'
-  })
-</script>
+<script src="{% static 'js/calculadora.js' %}"></script>
 {% endblock %}

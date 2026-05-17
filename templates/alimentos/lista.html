@@ -1,39 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Alimentos — NutriMed{% endblock %}
+
 {% block content %}
 <div class="container py-4">
+
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h2 style="color:#085041;margin-bottom:2px">Mis ingredientes</h2>
-      <span class="text-muted small">{{ total }} ingrediente{% if total != 1 %}s{% endif %} registrado{% if total != 1 %}s{% endif %}</span>
+      <h2 class="alimentos-titulo">Mis ingredientes</h2>
+      <span class="text-muted small">
+        {{ total }} ingrediente{% if total != 1 %}s{% endif %} registrado{% if total != 1 %}s{% endif %}
+      </span>
     </div>
     <div class="d-flex gap-2">
       <a href="{% url 'lista_comidas' %}" class="btn btn-outline-secondary">Gestionar comidas</a>
-      <a href="{% url 'crear_alimento' %}" class="btn text-white" style="background:#0F6E56">+ Nuevo ingrediente</a>
+      <a href="{% url 'crear_alimento' %}" class="btn btn-nutrimed">
+        <i class="bi bi-plus-lg me-1"></i>Nuevo ingrediente
+      </a>
     </div>
   </div>
+
   <form method="GET" class="d-flex gap-2 mb-4">
-    <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Buscar ingrediente..." style="max-width:250px">
-    <select name="grupo" class="form-control" style="max-width:180px">
+    <input type="text" name="q" value="{{ query }}"
+           class="form-control input-buscar" placeholder="Buscar ingrediente...">
+    <select name="grupo" class="form-select select-grupo">
       <option value="">Todos los grupos</option>
       {% for val, label in grupos %}
         <option value="{{ val }}" {% if grupo_sel == val %}selected{% endif %}>{{ label }}</option>
       {% endfor %}
     </select>
-    <button type="submit" class="btn text-white" style="background:#0F6E56">Filtrar</button>
+    <button type="submit" class="btn btn-nutrimed">Filtrar</button>
     <a href="{% url 'lista_alimentos' %}" class="btn btn-outline-secondary">Limpiar</a>
-
   </form>
 
   {% if messages %}
     {% for msg in messages %}
-      <div class="alert alert-success alert-dismissible fade show">{{ msg }}</div>
+      <div class="alert alert-success alert-dismissible fade show">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
     {% endfor %}
   {% endif %}
 
   <div class="table-responsive">
-    <table class="table table-hover align-middle">
-      <thead style="background:#E1F5EE">
+    <table class="table table-hover align-middle tabla-alimentos">
+      <thead>
         <tr>
           <th>Ingrediente</th>
           <th>Grupo</th>
@@ -56,29 +67,35 @@
           <td class="text-muted">{{ alimento.grasas }}g</td>
           <td>
             {% if alimento.perfil_medico == 'apto' %}
-              <span class="badge" style="background:#E1F5EE;color:#085041">Apto</span>
+              <span class="badge badge-apto">Apto</span>
             {% elif alimento.perfil_medico == 'moderado' %}
-              <span class="badge" style="background:#FAEEDA;color:#412402">Moderado</span>
+              <span class="badge badge-moderado">Moderado</span>
             {% else %}
-              <span class="badge" style="background:#FCEBEB;color:#501313">Evitar</span>
+              <span class="badge badge-evitar">Evitar</span>
             {% endif %}
           </td>
           <td>
             <div class="d-flex gap-1">
-              <a href="{% url 'editar_alimento' alimento.id %}" class="btn btn-sm" style="border:0.5px solid #85B7EB;color:#185FA5">Editar</a>
-              <a href="{% url 'eliminar_alimento' alimento.id %}" class="btn btn-sm" style="border:0.5px solid #F09595;color:#A32D2D">Eliminar</a>
+              <a href="{% url 'editar_alimento' alimento.id %}" class="btn btn-sm btn-editar">
+                <i class="bi bi-pencil me-1"></i>Editar
+              </a>
+              <a href="{% url 'eliminar_alimento' alimento.id %}" class="btn btn-sm btn-eliminar-tabla">
+                <i class="bi bi-trash me-1"></i>Eliminar
+              </a>
             </div>
           </td>
         </tr>
         {% empty %}
         <tr>
           <td colspan="8" class="text-center text-muted py-4">
-            No tienes ingredientes todavía. <a href="{% url 'crear_alimento' %}" style="color:#0F6E56">Añade el primero</a>
+            No tienes ingredientes todavía.
+            <a href="{% url 'crear_alimento' %}" class="enlace-verde">Añade el primero</a>
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+
 </div>
 {% endblock %}

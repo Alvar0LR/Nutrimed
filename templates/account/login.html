@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}
-Entrar — NutriMed
-{% endblock %}
+{% load static %}
+{% block title %}Entrar — NutriMed{% endblock %}
+
 {% block content %}
-<div class="container" style="min-height:100vh; display:flex; align-items:center; justify-content:center">
-  <div class="row w-100" style="max-width:800px">
-    <div class="col-md-6 p-5 rounded-start" style="background:#E1F5EE">
-      <div class="mb-3" style="color:#0F6E56; font-weight:500; font-size:18px">● NutriMed</div>
-      <h2 style="color:#085041">Bienvenido</h2>
-      <p style="color:#0F6E56">Accede con tu cuenta de Google o con tu email.</p>
-      <span class="badge mt-3" style="background:#9FE1CB; color:#085041">OAuth2 · Google</span>
+<div class="container login-container">
+  <div class="row w-100 login-wrapper">
+    <div class="col-md-6 p-5 rounded-start login-panel-izq">
+      <div class="mb-3 login-brand">● NutriMed</div>
+      <h2 class="login-titulo">Bienvenido</h2>
+      <p class="login-subtitulo">Accede con tu cuenta de Google o con tu email.</p>
+      <span class="badge mt-3 login-badge">OAuth2 · Google</span>
     </div>
     <div class="col-md-6 p-5 bg-white rounded-end border">
       <a href="{% url 'google_login' %}" class="btn btn-outline-secondary w-100 mb-3 d-flex align-items-center justify-content-center gap-2">
@@ -32,10 +32,10 @@ Entrar — NutriMed
         <div class="mb-3">
           <input type="password" name="password" class="form-control" placeholder="Contraseña">
         </div>
-        <button type="submit" class="btn w-100 text-white" style="background:#0F6E56">Entrar</button>
+        <button type="submit" class="btn btn-nutrimed w-100">Entrar</button>
       </form>
       <p class="text-center mt-3 small text-muted">
-        ¿No tienes cuenta? <a href="{% url 'account_signup' %}" style="color:#0F6E56">Regístrate</a>
+        ¿No tienes cuenta? <a href="{% url 'account_signup' %}" class="enlace-verde">Regístrate</a>
       </p>
     </div>
   </div>

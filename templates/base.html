@@ -6,91 +6,49 @@
     <title>{% block title %}NutriMed{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
     {% block extra_css %}{% endblock %}
-    <style>
-      #cookie-banner {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 9999;
-        background: #1a1a1a;
-        color: #fff;
-        padding: 1rem 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        flex-wrap: wrap;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
-      }
-      #cookie-banner p {
-        margin: 0;
-        font-size: 0.9rem;
-        flex: 1;
-      }
-      #cookie-banner a {
-        color: #4ade80;
-        text-decoration: underline;
-      }
-      .cookie-btn-aceptar {
-        background-color: #0F6E56;
-        color: white;
-        border: none;
-        padding: 0.5rem 1.5rem;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        white-space: nowrap;
-      }
-      .cookie-btn-aceptar:hover { background-color: #0a5a45; }
-      .cookie-btn-rechazar {
-        background-color: transparent;
-        color: #aaa;
-        border: 1px solid #555;
-        padding: 0.5rem 1.5rem;
-        border-radius: 6px;
-        cursor: pointer;
-        white-space: nowrap;
-      }
-      .cookie-btn-rechazar:hover { color: #fff; border-color: #aaa; }
-    </style>
   </head>
   <body>
     {% if user.is_authenticated %}
-    <nav class="navbar navbar-expand-lg" style="background: #0f6e56">
+    <nav class="navbar navbar-expand-lg navbar-nutrimed">
       <div class="container">
-        <a class="navbar-brand text-white fw-500" href="/">● NutriMed</a>
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link text-white" href="/dashboard">Dashboard</a>
-          <a class="nav-link text-white" href="/plan">Plan semanal</a>
-          <a class="nav-link text-white" href="/alimentos/comidas">Comidas</a>
-          <a class="nav-link text-white" href="/calculadora">Calculadora</a>
-          <a class="nav-link text-white" href="/logout">Salir</a>
+        <a class="navbar-brand text-white" href="/">● NutriMed</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+          <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
+            <a class="nav-link" href="/plan">Plan semanal</a>
+            <a class="nav-link" href="/alimentos/comidas">Comidas</a>
+            <a class="nav-link" href="/calculadora">Calculadora</a>
+            <a class="nav-link" href="/logout">Salir</a>
+          </div>
         </div>
       </div>
     </nav>
 
-    <!-- Variable para saber si ya decidió desde el backend -->
     {% if cookies_decididas %}
     <script>window.cookiesDecididas = true;</script>
     {% else %}
     <script>window.cookiesDecididas = false;</script>
     {% endif %}
-
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <script>window.csrfToken = '{{ csrf_token }}';</script>
     {% endif %}
 
     <main>{% block content %}{% endblock %}</main>
 
-    <!-- BANNER COOKIES -->
     {% if user.is_authenticated %}
     <div id="cookie-banner" style="display:none;">
       <p>
-        <i class="bi bi-shield-lock me-2" style="color: #4ade80;"></i>
+        <i class="bi bi-shield-lock me-2 cookie-icono"></i>
         Usamos cookies propias para el funcionamiento de la aplicación.
         No utilizamos cookies de terceros ni de seguimiento.
       </p>
-      <div style="display:flex; gap: 0.5rem;">
+      <div class="cookie-botones">
         <button class="cookie-btn-rechazar" onclick="decidirCookies('rechazadas')">Rechazar</button>
         <button class="cookie-btn-aceptar" onclick="decidirCookies('aceptadas')">Aceptar</button>
       </div>
@@ -98,32 +56,8 @@
     {% endif %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% load static %}
+    <script src="{% static 'js/cookies.js' %}"></script>
     {% block extra_js %}{% endblock %}
-
-    <script>
-      function decidirCookies(decision) {
-        // Ocultar banner inmediatamente
-        document.getElementById('cookie-banner').style.display = 'none'
-
-        // Guardar en backend via AJAX
-        fetch('/cookies/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': '{{ csrf_token }}'
-          },
-          body: 'decision=' + decision
-        })
-      }
-
-      // Mostrar banner solo si no ha decidido aún
-      document.addEventListener('DOMContentLoaded', function() {
-        if (typeof window.cookiesDecididas !== 'undefined' && !window.cookiesDecididas) {
-          setTimeout(function() {
-            document.getElementById('cookie-banner').style.display = 'flex'
-          }, 1000)
-        }
-      })
-    </script>
   </body>
 </html>

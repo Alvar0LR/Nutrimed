@@ -1,101 +1,64 @@
-{% extends 'base.html' %} {% block title %}NutriMed — Tu nutrición bajo
-control{% endblock %} {% block content %}
-<section
-  style="
-    background: #e1f5ee;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  "
->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}NutriMed — Tu nutrición bajo control{% endblock %}
+
+{% block content %}
+<section class="landing-hero">
   <div class="container py-5">
     <div class="row align-items-center">
       <div class="col-md-7">
-        <span
-          class="badge mb-3"
-          style="background: #9fe1cb; color: #085041; font-size: 13px"
-          >Para dietas médicas</span
-        >
-        <h1 class="display-5 fw-500 mb-3" style="color: #085041">
-          Tu nutrición,<br />bajo control médico
+        <span class="badge landing-badge mb-3">Para dietas médicas</span>
+        <h1 class="display-5 fw-bold mb-3 landing-titulo">
+          Tu nutrición,<br/>bajo control médico
         </h1>
-        <p class="lead mb-4" style="color: #0f6e56">
+        <p class="lead mb-4 landing-subtitulo">
           Planifica tu dieta semanal, controla tus macros y gestiona tus
           alimentos desde un solo lugar.
         </p>
         <div class="d-flex gap-3">
-          <a
-            href="/login"
-            class="btn btn-lg"
-            style="background: #0f6e56; color: white"
-            >Empezar gratis</a
-          >
-          <a
-            href="#funciones"
-            class="btn btn-lg"
-            style="border: 1px solid #1d9e75; color: #0f6e56"
-            >Ver funciones</a
-          >
+          <a href="/login" class="btn btn-lg landing-btn-primary">Empezar gratis</a>
+          <a href="#funciones" class="btn btn-lg landing-btn-secondary">Ver funciones</a>
         </div>
       </div>
       <div class="col-md-5 text-center">
-        <div
-          style="
-            width: 200px;
-            height: 200px;
-            background: #9fe1cb;
-            border-radius: 50%;
-            margin: auto;
-            opacity: 0.6;
-          "
-        ></div>
+        <div class="landing-circulo"></div>
       </div>
     </div>
 
     <div id="funciones" class="row mt-5 g-3">
       <div class="col-md-3">
-        <div
-          class="card border-0 h-100"
-          style="border-top: 4px solid #0f6e56 !important; border-radius: 8px"
-        >
+        <div class="card border-0 h-100 feature-card feature-card-verde shadow-sm">
           <div class="card-body">
+            <i class="bi bi-basket2 fs-3 mb-2 feature-icono-verde"></i>
             <h5 class="card-title">Alimentos</h5>
-            <p class="card-text text-muted small">
-              Ingredientes y macros a medida
-            </p>
+            <p class="card-text text-muted small">Ingredientes y macros a medida</p>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div
-          class="card border-0 h-100"
-          style="border-top: 4px solid #378add !important; border-radius: 8px"
-        >
+        <div class="card border-0 h-100 feature-card feature-card-azul shadow-sm">
           <div class="card-body">
+            <i class="bi bi-calendar-week fs-3 mb-2 feature-icono-azul"></i>
             <h5 class="card-title">Plan semanal</h5>
             <p class="card-text text-muted small">5 turnos × 7 días</p>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div
-          class="card border-0 h-100"
-          style="border-top: 4px solid #ef9f27 !important; border-radius: 8px"
-        >
+        <div class="card border-0 h-100 feature-card feature-card-naranja shadow-sm">
           <div class="card-body">
+            <i class="bi bi-speedometer2 fs-3 mb-2 feature-icono-naranja"></i>
             <h5 class="card-title">Dashboard</h5>
             <p class="card-text text-muted small">Gráficas de progreso</p>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div
-          class="card border-0 h-100"
-          style="border-top: 4px solid #d85a30 !important; border-radius: 8px"
-        >
+        <div class="card border-0 h-100 feature-card feature-card-rojo shadow-sm">
           <div class="card-body">
-            <h5 class="card-title">Tienda</h5>
-            <p class="card-text text-muted small">Productos y packs</p>
+            <i class="bi bi-calculator fs-3 mb-2 feature-icono-rojo"></i>
+            <h5 class="card-title">Calculadora</h5>
+            <p class="card-text text-muted small">Gasto energético diario</p>
           </div>
         </div>
       </div>
