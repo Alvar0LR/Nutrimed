@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.utils import timezone
 from datetime import date, timedelta
 from alimentos.models import SlotDieta
+from .models import PerfilUsuario
 
 def landing(request):
     if request.user.is_authenticated:
@@ -17,6 +21,19 @@ def logout_view(request):
     from django.contrib.auth import logout
     logout(request)
     return redirect('landing')
+
+@login_required
+@require_POST
+def guardar_cookies(request):
+    decision = request.POST.get('decision')
+    aceptadas = decision == 'aceptadas'
+
+    perfil, _ = PerfilUsuario.objects.get_or_create(usuario=request.user)
+    perfil.cookies_aceptadas = aceptadas
+    perfil.fecha_decision_cookies = timezone.now()
+    perfil.save()
+
+    return JsonResponse({'ok': True})
 
 @login_required
 def dashboard(request):
