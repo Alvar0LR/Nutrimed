@@ -42,7 +42,7 @@ def calcular_imc(peso, altura_cm):
 
 
 def calcular_tmb_mifflin(sexo, peso, altura_cm, edad):
-    """Fórmula Mifflin-St Jeor (1990) - precisión 79%"""
+    
     if sexo == 'H':
         tmb = 10 * peso + 6.25 * altura_cm - 5 * edad + 5
     else:
@@ -51,7 +51,7 @@ def calcular_tmb_mifflin(sexo, peso, altura_cm, edad):
 
 
 def calcular_macros(get_kcal):
-    """Distribución según PDF UA: HC 55%, Proteínas 15%, Grasas 30%"""
+    
     proteinas_kcal = get_kcal * 0.15
     hidratos_kcal = get_kcal * 0.55
     grasas_kcal = get_kcal * 0.30
